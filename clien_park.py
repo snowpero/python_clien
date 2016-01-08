@@ -1,16 +1,19 @@
 #-*- coding: utf-8 -*-
 
-from bs4 import BeautifulSoup
-import urllib2
-import json
 import datetime
-from clien_post_data import ClienPostData
+import json
+import urllib2
+
+from bs4 import BeautifulSoup
+from data.clien_post_data import ClienPostData
 
 page_num = 1;
 
 # 모바일 주소값 데이터
-def getMobileData():
+def getMobileData(input_url):
 	parse_url = 'http://m.clien.net/cs3/board?bo_style=lists&bo_table=park&page='
+	if len(input_url) > 1:
+		parse_url = 'http://m.clien.net' + input_url + '&page='
 	def_url_img = 'http://m.clien.net'
 	def_url_post = 'http://m.clien.net/cs3/board?'
 
@@ -24,15 +27,7 @@ def getMobileData():
 
 	arrData = []
 	if len(list_info) == len(list_tit):
-
-		arrLen = len(list_tit)
-		if page_num > 1 :
-			arrLen = arrLen - 2
-
-		for i in range(arrLen):
-			if page_num > 1 :
-				i = i + 2
-
+		for i in range(len(list_tit)):
 			c_post_data = ClienPostData()
 
 			cell_title = list_tit[i]
@@ -59,14 +54,10 @@ def getMobileData():
 
 			# ReplyCount
 			c_post_data.replyCount = cell_reply
-
 			arrData.append(c_post_data)
 
 	arrRetVal = []
-	for i in range(len(arrData)):
-		itemData = ClienPostData()
-		itemData = arrData[i]
-
+	for itemData in arrData:
 		arrRetVal.append({
 			'title' : itemData.title,
 			'link' : itemData.link,
@@ -79,8 +70,10 @@ def getMobileData():
 	return arrRetVal
 
 # 웹페이지 데이터만 가져온다
-def getWebData():
-	parse_url = 'http://www.clien.net/cs2/bbs/board.php?bo_table=park&page='	
+def getWebData(input_url):
+	parse_url = 'http://www.clien.net/cs2/bbs/board.php?bo_table=park&page='
+	if len(input_url) > 1:
+		parse_url = 'http://m.clien.net' + input_url + '&page='
 	post_url = 'http://www.clien.net/cs2'
 
 	page = urllib2.urlopen(parse_url+str(page_num))
@@ -103,22 +96,16 @@ def getWebData():
 						 'link' : link
 						})
 
-	print 'Member List Size : ' + str(len(member_list))
-
-	strTime = "\n****** Build : "
-	strTime += str(datetime.datetime.now())
-	print strTime
 	return retArr
 
 # 첫 메인 페이지 데이터
-def getData():
+def getData(input_url):
 	global page_num
 	page_num = 1
-	return json.dumps( {'items' : getMobileData() }, ensure_ascii=False)
+	return json.dumps( {'items' : getMobileData(input_url) }, ensure_ascii=False)
 
 # 다음 페이지 데이터
-def getNextPageData():
+def getNextPageData(input_url):
 	global page_num
 	page_num = page_num + 1
-	print 'Next Page Num : ' + str(page_num)
-	return json.dumps( {'items' : getMobileData() }, ensure_ascii=False)
+	return json.dumps( {'items' : getWebData(input_url) }, ensure_ascii=False)

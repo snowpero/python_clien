@@ -1,39 +1,45 @@
 #-*- coding: utf-8 -*-
 
-from bs4 import BeautifulSoup
-import urllib2
 import json
-from urlparse import parse_qs, urlparse
-from clien_detail_data import ClienDetailData
+import urllib2
+
+from bs4 import BeautifulSoup
+from data.clien_detail_data import ClienDetailData
+
 
 def getPostDetailData(post_url):
-	try:
-		page = urllib2.urlopen(post_url)
-		soup = BeautifulSoup(page.read(), 'html.parser')
-		page.close()
-		#print soup
+	page = urllib2.urlopen(post_url)
+	soup = BeautifulSoup(page.read(), 'html.parser')
+	page.close()
+	#print soup
 
-		info = soup.find_all('span', 'view_info')
-		info_txt = info
-		title = soup.find_all('div', 'post_tit scalable')
-		titleTxt = title[0].text
+	info = soup.find_all('span', 'view_info')
+	info_txt = info
+	print info_txt[0].text
+	title = soup.find_all('div', 'post_tit scalable')
+	print title[0].string
 
-		post_content = soup.find_all('div', 'post_ct scalable')
+	post_content = soup.find_all('div', 'post_ct scalable')
+	print post_content[0].text
 
-		c_detail_data = ClienDetailData()
-		c_detail_data.viewinfo = info_txt[0].text
-		c_detail_data.title = titleTxt
-		c_detail_data.text = post_content[0].text
+	#for item in post_content[0].a.next_siblings:
+	#	if isinstance(item, Tag):			
+	#		print item
 
-		retVal = {
-			'title' : c_detail_data.title,
-			'text' : c_detail_data.text,
-			'viewinfo' : c_detail_data.viewinfo
-		}
+	c_detail_data = ClienDetailData()
+	c_detail_data.viewinfo = info_txt[0].text
+	c_detail_data.title = title[0].text
+	c_detail_data.text = post_content[0].text
 
-		return json.dumps( { 'data' : retVal }, ensure_ascii=False )
-	except:
-		return "Parse Error"
+	retVal = {
+		'title' : c_detail_data.title,
+		'text' : c_detail_data.text,
+		'viewinfo' : c_detail_data.viewinfo
+	}
+	print retVal
+
+	return json.dumps( retVal, ensure_ascii=False )
+
 
 def getReplyData(post_url):
 	page = urllib2.urlopen(post_url)
@@ -41,6 +47,9 @@ def getReplyData(post_url):
 	page.close()
 
 	reply_txt = soup.find_all('div', 'reply_txt scalable')
-	reply_user = soup.find_all('div', 'reply_user')
-	for reply in reply_txt:
-		print reply
+	reply_user = soup.find_all('span', 'reply_user')
+	reply_date = soup.find_all('span', 'reply_date')
+
+	for i in range(len(reply_txt)):
+		print reply_txt[i].text
+		print reply_user[i]
