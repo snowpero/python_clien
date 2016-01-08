@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return clien_park.getData()
+    return 'TEST'
 
 @app.route('/clien', methods=['GET'])
 def get_clien():
