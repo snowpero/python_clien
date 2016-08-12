@@ -7,8 +7,6 @@ from data.clien_detail_data import ClienDetailData
 
 
 def getPostDetailData(post_url):
-	logger = logging.getLogger()
-
 	page = urllib2.urlopen(post_url)
 	soup = BeautifulSoup(page.read(), 'html.parser')
 	page.close()
@@ -39,7 +37,7 @@ def getPostDetailData(post_url):
 	}
 	# print retVal
 
-	return json.dumps( "retVal", ensure_ascii=False )
+	return json.dumps( retVal, ensure_ascii=False )
 
 
 def getReplyData(post_url):
