@@ -15,12 +15,12 @@ def getPostDetailData(post_url):
 
 	info = soup.find_all('span', 'view_info')
 	info_txt = info
-	print info_txt[0].text
+	# print info_txt[0].text
 	title = soup.find_all('div', 'post_tit scalable')
-	print title[0].string
+	# print title[0].string
 
 	post_content = soup.find_all('div', 'post_ct scalable')
-	print post_content[0].text
+	# print post_content[0].text
 
 	#for item in post_content[0].a.next_siblings:
 	#	if isinstance(item, Tag):			
@@ -36,7 +36,7 @@ def getPostDetailData(post_url):
 		'text' : c_detail_data.text,
 		'viewinfo' : c_detail_data.viewinfo
 	}
-	print retVal
+	# print retVal
 
 	return json.dumps( "Hello Test", ensure_ascii=False )
 
