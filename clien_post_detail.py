@@ -37,7 +37,7 @@ def getPostDetailData(post_url):
 	}
 	# print retVal
 
-	return json.dumps( retVal, ensure_ascii=False )
+	return json.dumps( {'data' : retVal }, ensure_ascii=False )
 
 
 def getReplyData(post_url):
