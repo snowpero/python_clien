@@ -2,7 +2,7 @@
 import clien_park
 import clien_post_detail
 import clien_board_title
-import naver_webtoon
+# import naver_webtoon
 from flask import Flask, jsonify, make_response, request
 from urlparse import parse_qs, urlparse
 from urllib import quote, unquote
@@ -31,9 +31,9 @@ def get_next_clien():
         detail_url = unquote(detail_url).decode('utf-8')
     return clien_park.getNextPageData(detail_url)
 
-@app.route('/webtoon', methods=['GET'])
-def get_webtoon():
-    return naver_webtoon.getData()
+# @app.route('/webtoon', methods=['GET'])
+# def get_webtoon():
+#     return naver_webtoon.getData()
 
 @app.route('/detail', methods=['GET'])
 def get_detail():
