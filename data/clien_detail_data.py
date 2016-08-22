@@ -7,4 +7,5 @@ class ClienDetailData:
 	title = ''
 	viewinfo = ''
 	text = ''
+	signature = ''
 	arrReplyList = []
