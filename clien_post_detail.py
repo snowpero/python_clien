@@ -67,7 +67,7 @@ def getPostDetailData(post_url):
 		'text' : c_detail_data.text,
 		'viewinfo' : c_detail_data.viewinfo,
 		'signature' : c_detail_data.signature,
-		'reply_items' : [ c_detail_data.arrReplyList ]
+		# 'reply_items' : [ c_detail_data.arrReplyList ]
 	}
 	# print retVal
 
