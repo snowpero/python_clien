@@ -38,22 +38,22 @@ def getPostDetailData(post_url):
 
 	count = 0
 	reply_items = []
-	if( len(reply_list) > 0 ) :
-		for reply_item in reply_list:
-			itemData = ClienDetailReplyItem()			
-			itemData.text = reply_item.find_all('div', 'reply_txt scalable')[0].text
-			itemData.date = reply_item.find_all('span', 'reply_date')[0].text
-			isAddReply = False
-			if( str(reply_item).find('reply_add') != -1 ) :
-				isAddReply = True
-			itemData.isAddReply = isAddReply
-			count = count+1
-			json_reply = {
-				'text' : itemData.text,
-				'date' : itemData.date,
-				'isAddReply' : itemData.isAddReply
-			}
-			c_detail_data.arrReplyList.append(json_reply)
+	# if( len(reply_list) > 0 ) :
+	# 	for reply_item in reply_list:
+	# 		itemData = ClienDetailReplyItem()			
+	# 		itemData.text = reply_item.find_all('div', 'reply_txt scalable')[0].text
+	# 		itemData.date = reply_item.find_all('span', 'reply_date')[0].text
+	# 		isAddReply = False
+	# 		if( str(reply_item).find('reply_add') != -1 ) :
+	# 			isAddReply = True
+	# 		itemData.isAddReply = isAddReply
+	# 		count = count+1
+	# 		json_reply = {
+	# 			'text' : itemData.text,
+	# 			'date' : itemData.date,
+	# 			'isAddReply' : itemData.isAddReply
+	# 		}
+	# 		c_detail_data.arrReplyList.append(json_reply)
 
 
 	# print 'Add Item Count : ' + str(len(c_detail_data.arrReplyList))
@@ -67,7 +67,7 @@ def getPostDetailData(post_url):
 		'text' : c_detail_data.text,
 		'viewinfo' : c_detail_data.viewinfo,
 		'signature' : c_detail_data.signature,
-		'reply_items' : [ c_detail_data.arrReplyList ]
+		# 'reply_items' : [ c_detail_data.arrReplyList ]
 	}
 	# print retVal
 
