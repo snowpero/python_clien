@@ -12,19 +12,21 @@ def getPostDetailData(post_url):
 	page.close()
 	# print soup
 
-	info = soup.find_all('span', 'view_info')
+	def_url_img = 'http://m.clien.net'
+
+	info = soup.findAll('span', 'view_info')
 	info_txt = info
 	# print info_txt[0].text
-	title = soup.find_all('div', 'post_tit scalable')
+	title = soup.findAll('div', 'post_tit scalable')
 	# print title[0].string
 
-	post_content = soup.find_all('div', 'post_ct scalable')
+	post_content = soup.findAll('div', 'post_ct scalable')
 	# print post_content[0].text
 
-	signature = soup.find_all('p', 'signature_txt scalable')
+	signature = soup.findAll('p', 'signature_txt scalable')
 	# print signature[0].text
 
-	reply_list = soup.find_all('div', {'class', 'reply', 'reply_add'})
+	reply_list = soup.findAll('div', {'class', 'reply', 'reply_add'})
 	# print 'reply_list length : ' + str(len(reply_list))
 
 	c_detail_data = ClienDetailData()
@@ -40,20 +42,30 @@ def getPostDetailData(post_url):
 	if( len(reply_list) > 0 ) :
 		for reply_item in reply_list:
 			itemData = ClienDetailReplyItem()			
-			itemData.text = reply_item.find_all('div', 'reply_txt scalable')[0].text
-			itemData.date = reply_item.find_all('span', 'reply_date')[0].text
+			itemData.text = reply_item.findAll('div', 'reply_txt scalable')[0].text
+			itemData.date = reply_item.findAll('span', 'reply_date')[0].text
 			isAddReply = False
 			if( str(reply_item).find('reply_add') != -1 ) :
 				isAddReply = True
 			itemData.isAddReply = isAddReply
-			count = count+1
+			count = count+1			
+
+			reply_name = reply_item.findAll('span', 'reply_user')[0]
+			if( reply_name.img != None ) :
+				itemData.hasImgId = True
+				itemData.imgUrl = def_url_img + str(reply_name.img['src'])
+			else :
+				itemData.hasImgId = False
+				itemData.user = reply_name.text
+
 			json_reply = {
 				'text' : itemData.text,
 				'date' : itemData.date,
-				'isAddReply' : itemData.isAddReply
+				'isAddReply' : itemData.isAddReply,
+				'hasImgId' : itemData.hasImgId,
+				'imgUrl' : itemData.imgUrl
 			}
 			c_detail_data.arrReplyList.append(json_reply)
-
 
 	# print 'Add Item Count : ' + str(len(c_detail_data.arrReplyList))
 
