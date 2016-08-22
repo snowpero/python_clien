@@ -22,10 +22,10 @@ def getPostDetailData(post_url):
 	# print post_content[0].text
 
 	signature = soup.find_all('p', 'signature_txt scalable')
-	print signature[0].text
+	# print signature[0].text
 
 	reply_list = soup.find_all('div', {'class', 'reply', 'reply_add'})
-	print 'reply_list length : ' + str(len(reply_list))
+	# print 'reply_list length : ' + str(len(reply_list))
 
 	c_detail_data = ClienDetailData()
 	c_detail_data.viewinfo = info_txt[0].text
@@ -52,7 +52,7 @@ def getPostDetailData(post_url):
 		c_detail_data.arrReplyList.append(json_reply)
 
 
-	print 'Add Item Count : ' + str(len(c_detail_data.arrReplyList))
+	# print 'Add Item Count : ' + str(len(c_detail_data.arrReplyList))
 
 	#for item in post_content[0].a.next_siblings:
 	#	if isinstance(item, Tag):			
