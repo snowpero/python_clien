@@ -63,7 +63,8 @@ def getPostDetailData(post_url):
 				'date' : itemData.date,
 				'isAddReply' : itemData.isAddReply,
 				'hasImgId' : itemData.hasImgId,
-				'imgUrl' : itemData.imgUrl
+				'imgUrl' : itemData.imgUrl,
+				'userId' : itemData.user
 			}
 			c_detail_data.arrReplyList.append(json_reply)
 
