@@ -108,4 +108,4 @@ def getData(input_url):
 def getNextPageData(input_url):
 	global page_num
 	page_num = page_num + 1
-	return json.dumps( {'items' : getWebData(input_url) }, ensure_ascii=False)
+	return json.dumps( {'items' : getMobileData(input_url) }, ensure_ascii=False)
