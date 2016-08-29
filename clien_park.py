@@ -13,7 +13,7 @@ page_num = 1;
 def getMobileData(input_url):
 	parse_url = 'http://m.clien.net/cs3/board?bo_style=lists&bo_table=park&page='
 	if len(input_url) > 1:
-		parse_url = 'http://m.clien.net' + input_url
+		parse_url = 'http://m.clien.net' + input_url + '&page='
 	def_url_img = 'http://m.clien.net'
 	def_url_post = 'http://m.clien.net/cs3/board?'
 
@@ -105,7 +105,7 @@ def getData(input_url):
 	return json.dumps( {'items' : getMobileData(input_url) }, ensure_ascii=False)
 
 # 다음 페이지 데이터
-def getNextPageData(input_url):
+def getNextPageData(input_url, page):
 	global page_num
-	page_num = page_num + 1
+	page_num = page
 	return json.dumps( {'items' : getMobileData(input_url) }, ensure_ascii=False)

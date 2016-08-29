@@ -22,14 +22,14 @@ def get_clien():
         detail_url = unquote(detail_url).decode('utf-8')
     return clien_park.getData(detail_url)
 
-@app.route('/clien/next', methods=['GET'])
-def get_next_clien():
+@app.route('/clien/next/<page>', methods=['GET'])
+def get_next_clien(page):
     parse = parse_qs(urlparse(request.url).query.encode('utf-8'), keep_blank_values=True)
     detail_url = ''
     if len(parse) > 0:
         detail_url = parse.get('url')[0]
         detail_url = unquote(detail_url).decode('utf-8')
-    return clien_park.getNextPageData(detail_url)
+    return clien_park.getNextPageData(detail_url, page)
 
 # @app.route('/webtoon', methods=['GET'])
 # def get_webtoon():
