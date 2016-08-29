@@ -4,6 +4,7 @@ import datetime
 import json
 import urllib2
 
+from urlparse import parse_qs, urlparse
 from bs4 import BeautifulSoup
 from data.clien_post_data import ClienPostData
 
@@ -33,6 +34,18 @@ def getMobileData(input_url):
 			cell_title = list_tit[i]
 			cell_info = list_info[i]
 			cell_reply = list_reply[i].text
+			
+			tit_parent = cell_title.parent['onclick']
+
+			# Index
+			if tit_parent.find('?') != -1:
+				tempStr = tit_parent.replace("'", "")
+				splitStr = tempStr.split('?')
+				tempUrl = def_url_post + splitStr[1]
+				print tempUrl
+				cell_index = parse_qs(urlparse(tempUrl).query, keep_blank_values=True).get('wr_id')[0]
+				print cell_index
+				c_post_data.index = cell_index
 
 			# ID
 			if cell_info.img != None:
@@ -54,7 +67,13 @@ def getMobileData(input_url):
 
 			# ReplyCount
 			c_post_data.replyCount = cell_reply
-			arrData.append(c_post_data)
+
+			if( page_num > 1 ):
+				# 두번째 페이지부터 공지사항 제외
+				if( i > 2 ):
+					arrData.append(c_post_data)
+			else:
+				arrData.append(c_post_data)
 
 	arrRetVal = []
 	for itemData in arrData:
@@ -64,7 +83,8 @@ def getMobileData(input_url):
 			'hasImgID' : itemData.hasImgID,
 			'imgUrl' : itemData.imgUrl,
 			'user' : itemData.user,
-			'replyCount' : itemData.replyCount
+			'replyCount' : itemData.replyCount,
+			'index' : itemData.index
 			})
 
 	return arrRetVal
