@@ -8,7 +8,8 @@ from urlparse import parse_qs, urlparse
 from bs4 import BeautifulSoup
 from data.clien_post_data import ClienPostData
 
-page_num = 1;
+page_num = 1
+img_page_num = 1
 
 # 모바일 주소값 데이터
 def getMobileData(input_url):
@@ -17,6 +18,8 @@ def getMobileData(input_url):
 		parse_url = 'http://m.clien.net' + input_url + '&page='
 	def_url_img = 'http://m.clien.net'
 	def_url_post = 'http://m.clien.net/cs3/board?'
+
+	print parse_url+str(page_num)
 
 	page = urllib2.urlopen(parse_url+str(page_num))
 	soup = BeautifulSoup(page.read(), 'html.parser')
@@ -31,6 +34,9 @@ def getMobileData(input_url):
 		for i in range(len(list_tit)):
 			c_post_data = ClienPostData()
 
+			# Cell Type
+			c_post_data.cell_type = 'LETTER_POST'
+
 			cell_title = list_tit[i]
 			cell_info = list_info[i]
 			cell_reply = list_reply[i].text
@@ -42,9 +48,7 @@ def getMobileData(input_url):
 				tempStr = tit_parent.replace("'", "")
 				splitStr = tempStr.split('?')
 				tempUrl = def_url_post + splitStr[1]
-				print tempUrl
 				cell_index = parse_qs(urlparse(tempUrl).query, keep_blank_values=True).get('wr_id')[0]
-				print cell_index
 				c_post_data.index = cell_index
 
 			# ID
@@ -84,7 +88,8 @@ def getMobileData(input_url):
 			'imgUrl' : itemData.imgUrl,
 			'user' : itemData.user,
 			'replyCount' : itemData.replyCount,
-			'index' : itemData.index
+			'index' : itemData.index,
+			'cell_type' : itemData.cell_type
 			})
 
 	return arrRetVal
@@ -120,12 +125,16 @@ def getWebData(input_url):
 
 # 첫 메인 페이지 데이터
 def getData(input_url):
-	global page_num
 	page_num = 1
 	return json.dumps( {'items' : getMobileData(input_url) }, ensure_ascii=False)
 
 # 다음 페이지 데이터
 def getNextPageData(input_url, page):
-	global page_num
 	page_num = page
 	return json.dumps( {'items' : getMobileData(input_url) }, ensure_ascii=False)
+
+def getImgPageData(input_url):
+	return 'Test'
+
+def getImgNextPageData(input_url, page):
+	pass

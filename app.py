@@ -2,6 +2,7 @@
 import clien_park
 import clien_post_detail
 import clien_board_title
+import clien_image_board
 # import naver_webtoon
 from flask import Flask, jsonify, make_response, request
 from urlparse import parse_qs, urlparse
@@ -31,9 +32,18 @@ def get_next_clien(page):
         detail_url = unquote(detail_url).decode('utf-8')
     return clien_park.getNextPageData(detail_url, page)
 
-# @app.route('/webtoon', methods=['GET'])
-# def get_webtoon():
-#     return naver_webtoon.getData()
+@app.route('/clien_img/', methods=['GET'])
+def get_clien_img():
+    parse = parse_qs(urlparse(request.url).query.encode('utf-8'), keep_blank_values=True)
+    detail_url = ''
+    if len(parse) > 0:
+        detail_url = parse.get('url')[0]
+        detail_url = unquote(detail_url).decode('utf-8')
+    return clien_image_board.getImgPageData(detail_url)
+
+@app.route('/clien_img_next/<page>', methods=['GET'])
+def get_clien_img_next(page):
+    return 'Test'
 
 @app.route('/detail', methods=['GET'])
 def get_detail():
