@@ -54,17 +54,17 @@ def getData(input_url):
 			c_image_post_data.replyCount = cell_hd.find('span', 'photo_reply').text
 
 			# Image Url			
-			c_image_post_data.imgUrl = cell_img.img['src']
+			c_image_post_data.imgUrl = def_url_img + cell_img.img['src']
 
 			# Link
-			str_link = cell_img.a['href']
-			c_image_post_data.link = str_link
+			str_link = cell_img.a['href']			
 			tmpUrl = def_url_img
 			if( str_link.find('?') != -1 ):
 				tmpUrl += '?'
 				tmpUrl += str_link
 			else:
 				tmpUrl += str_link
+			c_image_post_data.link = tmpUrl
 
 			str_index = parse_qs(urlparse(tmpUrl).query, keep_blank_values=True).get('wr_id')[0]
 			c_image_post_data.index = str_index
@@ -84,8 +84,6 @@ def getData(input_url):
 
 			# Message
 			c_image_post_data.message = cell_ct.find('span', 'photo_desc scalable').text
-
-			# c_image_post_data.
 
 			arrData.append(c_image_post_data)
 
