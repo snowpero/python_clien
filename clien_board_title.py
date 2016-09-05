@@ -22,4 +22,4 @@ def getBoardTitles():
             'link' : li.a['href']
         })
 
-    return json.dumps( {'items' : arrRetVal }, ensure_ascii=False)
+    return json.dumps( {'tabItems' : arrRetVal }, ensure_ascii=False)
