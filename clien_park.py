@@ -19,8 +19,6 @@ def getMobileData(input_url):
 	def_url_img = 'http://m.clien.net'
 	def_url_post = 'http://m.clien.net/cs3/board?'
 
-	print parse_url+str(page_num)
-
 	page = urllib2.urlopen(parse_url+str(page_num))
 	soup = BeautifulSoup(page.read(), 'html.parser')
 	page.close()
