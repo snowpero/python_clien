@@ -43,7 +43,12 @@ def get_clien_img():
 
 @app.route('/clien_img_next/<page>', methods=['GET'])
 def get_clien_img_next(page):
-    return 'Test'
+    parse = parse_qs(urlparse(request.url).query.encode('utf-8'), keep_blank_values=True)
+    detail_url = ''
+    if len(parse) > 0:
+        detail_url = parse.get('url')[0]
+        detail_url = unquote(detail_url).decode('utf-8')
+    return clien_image_board.getImgNextPageData(detail_url, page)
 
 @app.route('/detail', methods=['GET'])
 def get_detail():
