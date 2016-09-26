@@ -74,5 +74,5 @@ def not_found(error):
 # clien_board_title.getBoardTitles()
 
 if __name__ == '__main__':
-    telegram.initBot()
+    # telegram.initBot()
     app.run(debug=True)    
