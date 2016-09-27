@@ -3,7 +3,7 @@ import clien_park
 import clien_post_detail
 import clien_board_title
 import clien_image_board
-import telegram
+# import telegram
 # import naver_webtoon
 from flask import Flask, jsonify, make_response, request
 from urlparse import parse_qs, urlparse
@@ -61,10 +61,10 @@ def get_detail():
 def get_title():
 	return clien_board_title.getBoardTitles()
 
-@app.route('/telegram', methods=['GET'])
-def bot_telegram():
-    telegram.initBot()
-    return 'True'
+# @app.route('/telegram', methods=['GET'])
+# def bot_telegram():
+#     telegram.initBot()
+#     return 'True'
 
 @app.errorhandler(404)
 def not_found(error):
@@ -73,6 +73,6 @@ def not_found(error):
 # Test Code
 # clien_board_title.getBoardTitles()
 
-if __name__ == '__main__':
-    # telegram.initBot()
-    app.run(debug=True)    
+if __name__ == '__main__':    
+    app.run(debug=True)   
+    # telegram.initBot() 
